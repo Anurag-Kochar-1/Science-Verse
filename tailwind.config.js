@@ -1,4 +1,7 @@
 /** @type {import('tailwindcss').Config} */
+
+const { fontFamily } = require("tailwindcss/defaultTheme")
+
 module.exports = {
   content: [
     "./app/**/*.{js,ts,jsx,tsx}",
@@ -15,8 +18,11 @@ module.exports = {
         Light: "#d6dee7",
         Lightest: "#ffffff",
       },
+      fontFamily: {
+        nunito: ['var(--font-nunito)', ...fontFamily.sans],
+        nunito_sans: ['var(--font-nunito-sans)', ...fontFamily.sans],
+      }
 
-      
     },
   },
   plugins: [],

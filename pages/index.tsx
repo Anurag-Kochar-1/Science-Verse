@@ -15,7 +15,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        <h1 className='text-9xl text-Brand'> Ayo </h1>
+        <h1 className='text-9xl text-Brand font-nunito font-bold'> Ayo </h1>
       </main>
     </>
   )
