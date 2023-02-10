@@ -1,6 +1,8 @@
 import '@/styles/globals.css'
 import type { AppProps } from 'next/app'
 import { Nunito, Nunito_Sans, Roboto } from '@next/font/google'
+import LeftSidebar from '@/components/Sidebars/LeftSidebar/LeftSidebar'
+import RightSidebar from '@/components/Sidebars/RightSidebar/RightSidebar'
 
 const nunito = Nunito({
   subsets: ["latin"],
@@ -16,8 +18,10 @@ const nunito_sans = Nunito_Sans({
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <main className={`${nunito.variable} ${nunito_sans.variable}`}>
+    <main className={`bg-Lightest h-[100vh] grid grid-cols-12 ${nunito.variable} ${nunito_sans.variable}`}>
+      <LeftSidebar />
       <Component {...pageProps} />
+      <RightSidebar />
     </main>
   )
 }
