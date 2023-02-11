@@ -19,7 +19,7 @@ const LessonCard = ({ lesson }: any) => {
                     alert("Sign in first")
                 }
             }}
-            className='w-full h-28 flex justify-start items-center rounded-md bg-Mid p-4 hover:cursor-pointer'>
+            className='w-full h-28 flex justify-start items-center rounded-md bg-Mid p-3 hover:cursor-pointer space-x-3'>
 
             {lesson.lessonLogo && (
                 <Image
@@ -30,7 +30,7 @@ const LessonCard = ({ lesson }: any) => {
                     className="w-24 h-24"
                 />
             )}
-            <h6>{lesson.lessonTitle}</h6>
+            <h6 className='font-nunito_sans text-lg text-Dark font-medium'>{lesson.lessonTitle}</h6>
         </div>
     )
 }
