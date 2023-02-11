@@ -50,6 +50,10 @@ const navLinks = [
 const LeftSidebar = () => {
     const router = useRouter()
 
+
+
+    if (router.pathname == "/subject/[subject]/lesson/[lessonID]") return null
+
     return (
         <div className='hidden lg:inline-flex col-start-1 col-end-3 bg-Lightest flex-col items-center justify-between py-10 space-y-10 border-r border-gray-300'>
             {/* LOGO */}
