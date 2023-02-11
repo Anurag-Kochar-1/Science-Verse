@@ -34,7 +34,7 @@ const navLinks = [
         id: 3,
         name: "Profile",
         icon: <BsPerson size={"1.5rem"} className="text-gray-600" />,
-        link: "/profile"
+        link: "/"
     },
     {
         id: 4,
@@ -55,44 +55,46 @@ const LeftSidebar = () => {
     if (router.pathname == "/subject/[subject]/lesson/[lessonID]") return null
 
     return (
-        <div className='hidden lg:inline-flex col-start-1 col-end-3 bg-Lightest flex-col items-center justify-between py-10 space-y-10 border-r border-gray-300'>
-            {/* LOGO */}
-            <Link href={`/`}>
-                <Image
-                    src={logoOne}
-                    alt="logo"
-                    width={100}
-                    height={100}
-                    className="w-20 h-20 rounded-full"
-                />
-            </Link>
+        <>
+            <div className='hidden lg:inline-flex col-start-1 col-end-3 bg-Lightest flex-col items-center justify-between py-10 space-y-10 border-r border-gray-300'>
+                {/* LOGO */}
+                <Link href={`/`}>
+                    <Image
+                        src={logoOne}
+                        alt="logo"
+                        width={100}
+                        height={100}
+                        className="w-20 h-20 rounded-full"
+                    />
+                </Link>
 
-            {router.pathname !== "/subject/[subject]/lesson/[lessonID]" && (
-                <>
-                    <div className='w-full flex flex-col items-center justify-start space-y-20'>
-                        {navLinks?.map((item) => {
-                            return (
-                                <Link
-                                    key={item.id}
-                                    href={item.link}
-                                    className='w-full flex justify-start items-center space-x-3 px-5 py-1 hover:cursor-pointer'>
-                                    {item.icon}
-                                    <h6 className='text-base text-gray-600 font-nunito font-medium'> {item.name} </h6>
-                                </Link>
-                            )
-                        })}
-                    </div>
+                {router.pathname !== "/subject/[subject]/lesson/[lessonID]" && (
+                    <>
+                        <div className='w-full flex flex-col items-center justify-start space-y-20'>
+                            {navLinks?.map((item) => {
+                                return (
+                                    <Link
+                                        key={item.id}
+                                        href={item.link}
+                                        className='w-full flex justify-start items-center space-x-3 px-5 py-1 hover:cursor-pointer'>
+                                        {item.icon}
+                                        <h6 className='text-base text-gray-600 font-nunito font-medium'> {item.name} </h6>
+                                    </Link>
+                                )
+                            })}
+                        </div>
 
 
-                    <div
-                        className='w-full flex justify-start items-center space-x-3 px-5 py-1 hover:cursor-pointer' onClick={() => console.log(router)}>
-                        <IoSettingsOutline size={"1.5rem"} className="text-gray-600" />
-                        <h6 className='text-base text-gray-600 font-nunito font-medium'> Settings </h6>
-                    </div>
-                </>
-            )}
+                        <div
+                            className='w-full flex justify-start items-center space-x-3 px-5 py-1 hover:cursor-pointer' onClick={() => console.log(router)}>
+                            <IoSettingsOutline size={"1.5rem"} className="text-gray-600" />
+                            <h6 className='text-base text-gray-600 font-nunito font-medium'> Settings </h6>
+                        </div>
+                    </>
+                )}
 
-        </div >
+            </div >
+        </>
     )
 }
 

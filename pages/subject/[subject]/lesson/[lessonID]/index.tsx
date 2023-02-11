@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { db } from '@/firebaseConfig'
+import { auth, db } from '@/firebaseConfig'
 import { collection, doc, getDoc, getDocs } from 'firebase/firestore'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
@@ -8,41 +8,69 @@ import Link from 'next/link'
 
 // icons
 import { IoCloseSharp } from "react-icons/io5"
+import { useAuthState } from 'react-firebase-hooks/auth'
 
 const Index = ({ lessonData, lessonTestsData, lessonFirstTestQuestionsAndAnswersData }: any) => {
+    const [user, loading, error] = useAuthState(auth)
     const router = useRouter()
+
 
     const [timer, setTimer] = useState<number>(5)
     const [isTestModalOpen, setIsTestModalOpen] = useState<boolean>(false)
     const [currentQuestionNumber, setCurrentQuestionNumber] = useState<number>(0);
     const [optionChosen, setOptionChosen] = useState<string>("");
     const [score, setScore] = useState<number>(0)
-
+    const [isTestCompleted, setIsTestCompleted] = useState<boolean>(false)
 
 
     const nextQuestion = () => {
         if (lessonFirstTestQuestionsAndAnswersData?.questions[currentQuestionNumber].answer == optionChosen) {
             setScore(score + 1);
             setTimer(5)
+            setCurrentQuestionNumber(currentQuestionNumber + 1);
         }
+
         setCurrentQuestionNumber(currentQuestionNumber + 1);
+
+
+
+    }
+
+    const finishTest = () => {
+        if (lessonFirstTestQuestionsAndAnswersData?.questions[currentQuestionNumber].answer == optionChosen) {
+            setScore(score + 1);
+            setTimer(0)
+        }
+
+        setIsTestModalOpen(false)
+        setTimer(0)
+        setIsTestCompleted(true)
+
     }
 
 
     let timerIntervalFunc: any;
     useEffect(() => {
 
-        timerIntervalFunc =  setInterval(() => {
-            if(timer != 1) setTimer( timer - 1)
-            if(timer == 1) {
-                setCurrentQuestionNumber(currentQuestionNumber + 1)
-                setTimer(5)
+        timerIntervalFunc = setInterval(() => {
+            if (timer != 0) setTimer(timer - 1)
+            if (timer == 0) {
+                if (currentQuestionNumber != lessonFirstTestQuestionsAndAnswersData?.questions.length - 1) {
+                    setCurrentQuestionNumber(currentQuestionNumber + 1)
+                    setTimer(5)
+                }
             }
         }, 1000)
 
         return () => clearInterval(timerIntervalFunc)
 
     })
+
+    useEffect(() => {
+        if (!user && !loading) {
+            router.push("/")
+        }
+    }, [loading])
 
     return (
         <>
@@ -52,53 +80,47 @@ const Index = ({ lessonData, lessonTestsData, lessonFirstTestQuestionsAndAnswers
                         {/* --- Taskbar ---  */}
                         <div className='w-full h-16 flex justify-between items-center bg-Brand rounded-tr-md rounded-tl-md px-5'>
                             <span> {null} </span>
-
                             {/* Timer */}
                             <p className='text-xl text-white font-nunito font-semibold'> Timer : {`${timer} seconds`} </p>
-
-
                             <IoCloseSharp size={"1.5rem"} onClick={() => setIsTestModalOpen(false)} className="text-red-500 hover:cursor-pointer" />
                         </div>
 
-                        {/* Questions Container */}
-                        <div className='w-full flex flex-col items-center justify-start'>
-                            <p>{lessonFirstTestQuestionsAndAnswersData?.questions[currentQuestionNumber]?.prompt} - option - {optionChosen} Score - {score}</p>
+                        {/* Container */}
+                        <div className='w-full h-full flex flex-col items-center justify-between py-10'>
+                            {/* Question and Options container */}
+                            <div className='w-full flex flex-col justify-between items-center'>
+                                <p className='text-Dark text-4xl font-nunito font-semibold text-center'>  Question {currentQuestionNumber + 1} : {lessonFirstTestQuestionsAndAnswersData?.questions[currentQuestionNumber]?.prompt} </p>
+                                {/*- option - {optionChosen} Score - {score} */}
 
-                            {/* Options */}
-                            <div className='w-full flex flex-col items-center justify-center space-y-3'>
-                                {lessonFirstTestQuestionsAndAnswersData?.questions[currentQuestionNumber]?.options?.map((option: any) => {
-                                    return (
-                                        <button
-                                            onClick={() => {
-                                                setOptionChosen(option.option)
-                                            }}
-                                            type='button'
-                                            title='option'
-                                            key={option.optionValue}
-                                            className={`w-[90%] h-12 text-center bg-Mid  focus:border-2 focus:border-Brand`}>
-                                            <p> {option.option} - {option.optionValue} </p>
-                                        </button>
-                                    )
-                                })}
+                                {/* Options */}
+                                <div className='w-full flex flex-col items-center justify-center space-y-3 my-10'>
+                                    {lessonFirstTestQuestionsAndAnswersData?.questions[currentQuestionNumber]?.options?.map((option: any) => {
+                                        return (
+                                            <button
+                                                onClick={() => {
+                                                    setOptionChosen(option.option)
+                                                }}
+                                                type='button'
+                                                title='option'
+                                                key={option.optionValue}
+                                                className={`w-[90%] h-12 text-center bg-gray-200 ${optionChosen == option.option && "border-4 border-Brand"} rounded-md`}>
+                                                <span className='text-base text-black font-nunito_sans font-medium'> {option.option} - {option.optionValue} </span>
+                                            </button>
+                                        )
+                                    })}
+                                </div>
                             </div>
 
 
                             {/* Buttons */}
                             <div className='w-full flex items-center justify-center space-x-3'>
-
-
-                                <button
-                                    onClick={() => {
-                                        nextQuestion()
-                                    }}
-                                    type='button'
-                                    title='next'
-                                    className=' outline-none border-none w-28 h-10 bg-Brand text-white font-nunito font-semibold text-base rounded-md'>
-                                    Next
-                                </button>
-                                {/* {currentQuestionNumber == lessonFirstTestQuestionsAndAnswersData?.questions.length - 1 ? (
-                                    <button id="nextQuestion">
-                                        Finish Quiz
+                                {currentQuestionNumber == lessonFirstTestQuestionsAndAnswersData?.questions.length - 1 ? (
+                                    <button
+                                        onClick={finishTest}
+                                        type='button'
+                                        title='submitBtn'
+                                        className=' outline-none border-none w-28 h-10 bg-Brand text-white font-nunito font-semibold text-base rounded-md'>
+                                        Submit
                                     </button>
                                 ) : (
                                     <button
@@ -110,7 +132,7 @@ const Index = ({ lessonData, lessonTestsData, lessonFirstTestQuestionsAndAnswers
                                         className=' outline-none border-none w-28 h-10 bg-Brand text-white font-nunito font-semibold text-base rounded-md'>
                                         Next
                                     </button>
-                                )} */}
+                                )}
 
                             </div>
 
@@ -130,14 +152,41 @@ const Index = ({ lessonData, lessonTestsData, lessonFirstTestQuestionsAndAnswers
                     />
                 </Link>
 
-                <button
-                    onClick={() => {
-                        console.log(lessonFirstTestQuestionsAndAnswersData)
-                        setIsTestModalOpen(true)
-                    }}
-                    type='button'
-                    className='outline-none border-none w-28 h-10 bg-Brand text-white font-nunito font-medium text-base rounded-md'
-                > Start Test </button>
+                {!isTestCompleted && (
+                    <button
+                        onClick={() => {
+                            console.log(lessonFirstTestQuestionsAndAnswersData)
+                            setIsTestModalOpen(true)
+                        }}
+                        type='button'
+                        className='outline-none border-none w-28 h-10 bg-Brand text-white font-nunito font-medium text-base rounded-md'
+                    > Start Test </button>
+                )}
+
+                {/* Results */}
+                {isTestCompleted && (
+                    <div className='w-[95%] py-20 flex flex-col items-center justify-start p-3 space-y-2 my-5 border-2 border-Brand rounded-lg'>
+                        <p className='font-nunito font-medium'> Results: </p>
+                        <p className='text-3xl font-nunito text-Brand font-bold'> Marks : {score} </p>
+                        <button
+                            onClick={() => router.push(`/`)}
+                            type='button'
+                            title='goToHome'
+                            className='outline-none border-none w-32 h-10 bg-Brand text-white font-nunito font-medium text-base rounded-md'
+                        > Go to Home </button>
+                    </div>
+                )}
+
+
+                {/* Lesson Deatils */}
+                <div className='w-full flex flex-col items-start justify-start p-3 space-y-2 my-5'>
+                    <p className='text-Dark text-xl font-nunito_sans font-semibold'> Lesson Details: </p>
+                    <p className='text-Dark text-base font-nunito_sans font-medium'>{lessonData?.lessonDescription}</p>
+                </div>
+
+
+
+
             </div>
 
             <main className='col-span-full lg:col-start-3 lg:col-end-13 flex flex-col items-center justify-start bg-red-300'>
