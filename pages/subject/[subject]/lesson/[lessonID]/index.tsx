@@ -44,7 +44,7 @@ const Index = ({ lessonData, lessonTestsData, lessonFirstTestQuestionsAndAnswers
 
                                 {lessonFirstTestQuestionsAndAnswersData?.questions[currentQuestionNumber]?.options?.map((option: any) => {
                                     return (
-                                        <div>
+                                        <div key={option.optionValue}>
                                             <p> {option.option} - {option.optionValue} </p>
                                         </div>
                                     )
