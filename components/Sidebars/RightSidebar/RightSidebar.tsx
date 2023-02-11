@@ -9,7 +9,7 @@ const RightSidebar = () => {
   const router = useRouter()
   
 
-  if(router.pathname == "/subject/[subject]/lesson/[lessonID]") return
+  if(router.pathname == "/subject/[subject]/lesson/[lessonID]") return null
 
   return (
     <div className='hidden lg:inline-flex lg:col-start-11 lg:col-end-13 bg-Lightest border-l border-gray-300'>
