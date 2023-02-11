@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useRef } from 'react'
 import Image from 'next/image'
 import logoOne from "../../../public/images/logos/logoOne.png"
 import Link from 'next/link'
@@ -49,13 +49,30 @@ const navLinks = [
 
 const LeftSidebar = () => {
     const router = useRouter()
+    const [isProfileCardOpen, setIsProfileCardOpen] = useState<boolean>(false)
 
+    const profileCardContainerRef = useRef<HTMLDivElement | null>(null)
+    const profileCardRef = useRef<HTMLDivElement | null>(null)
 
 
     if (router.pathname == "/subject/[subject]/lesson/[lessonID]") return null
 
     return (
         <>
+            {isProfileCardOpen && (
+                <div
+                    ref={profileCardContainerRef}
+                    className='fixed w-full h-full bg-black/[.80] flex justify-center items-center' onClick={(e) => {
+                        // console.log(e.target)
+                        if(e.target !== profileCardRef.current) setIsProfileCardOpen(false)
+                    }}>
+                    <div ref={profileCardRef} className='z-50 w-[90%] h-[50vh] sm:w-[60%] md:w-[40%] lg:w-[30%] lg:h-[40vh] bg-Lightest rounded-md flex flex-col items-center justify-start'>
+
+                    </div>
+                </div>
+            )}
+
+
             <div className='hidden lg:inline-flex col-start-1 col-end-3 bg-Lightest flex-col items-center justify-between py-10 space-y-10 border-r border-gray-300'>
                 {/* LOGO */}
                 <Link href={`/`}>
@@ -74,6 +91,9 @@ const LeftSidebar = () => {
                             {navLinks?.map((item) => {
                                 return (
                                     <Link
+                                        onClick={() => {
+                                            if (item.name = "Profile") setIsProfileCardOpen(true)
+                                        }}
                                         key={item.id}
                                         href={item.link}
                                         className='w-full flex justify-start items-center space-x-3 px-5 py-1 hover:cursor-pointer'>
