@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { db } from '@/firebaseConfig'
 import { collection, doc, getDoc, getDocs } from 'firebase/firestore'
 import Image from 'next/image'
@@ -12,9 +12,37 @@ import { IoCloseSharp } from "react-icons/io5"
 const Index = ({ lessonData, lessonTestsData, lessonFirstTestQuestionsAndAnswersData }: any) => {
     const router = useRouter()
 
+    const [timer, setTimer] = useState<number>(5)
     const [isTestModalOpen, setIsTestModalOpen] = useState<boolean>(false)
     const [currentQuestionNumber, setCurrentQuestionNumber] = useState<number>(0);
     const [optionChosen, setOptionChosen] = useState<string>("");
+    const [score, setScore] = useState<number>(0)
+
+
+
+    const nextQuestion = () => {
+        if (lessonFirstTestQuestionsAndAnswersData?.questions[currentQuestionNumber].answer == optionChosen) {
+            setScore(score + 1);
+            setTimer(5)
+        }
+        setCurrentQuestionNumber(currentQuestionNumber + 1);
+    }
+
+
+    let timerIntervalFunc: any;
+    useEffect(() => {
+
+        timerIntervalFunc =  setInterval(() => {
+            if(timer != 1) setTimer( timer - 1)
+            if(timer == 1) {
+                setCurrentQuestionNumber(currentQuestionNumber + 1)
+                setTimer(5)
+            }
+        }, 1000)
+
+        return () => clearInterval(timerIntervalFunc)
+
+    })
 
     return (
         <>
@@ -22,34 +50,69 @@ const Index = ({ lessonData, lessonTestsData, lessonFirstTestQuestionsAndAnswers
                 <div className='fixed w-full h-full bg-black/[.80] flex justify-center items-center'>
                     <div className='z-50 w-[90%] h-[90vh] lg:w-[80%] lg:h-[80vh] bg-Lightest rounded-md flex flex-col items-center justify-start'>
                         {/* --- Taskbar ---  */}
-                        <div className='w-full h-16 flex justify-between items-center bg-Brand rounded-tr-md rounded-tl-md'>
+                        <div className='w-full h-16 flex justify-between items-center bg-Brand rounded-tr-md rounded-tl-md px-5'>
+                            <span> {null} </span>
+
                             {/* Timer */}
-                            <div>
-                                <p> Timer : {"100 seconds"} </p>
-                            </div>
+                            <p className='text-xl text-white font-nunito font-semibold'> Timer : {`${timer} seconds`} </p>
+
 
                             <IoCloseSharp size={"1.5rem"} onClick={() => setIsTestModalOpen(false)} className="text-red-500 hover:cursor-pointer" />
                         </div>
 
                         {/* Questions Container */}
                         <div className='w-full flex flex-col items-center justify-start'>
-                            <p>{lessonFirstTestQuestionsAndAnswersData?.questions[currentQuestionNumber].prompt}</p>
+                            <p>{lessonFirstTestQuestionsAndAnswersData?.questions[currentQuestionNumber]?.prompt} - option - {optionChosen} Score - {score}</p>
 
-                            <button
-                                onClick={() => {
-                                    setOptionChosen("optionA");
-                                }}
-                            >
-                                {/* {lessonFirstTestQuestionsAndAnswersData?.questions[currentQuestionNumber]?.optionA} */}
-
+                            {/* Options */}
+                            <div className='w-full flex flex-col items-center justify-center space-y-3'>
                                 {lessonFirstTestQuestionsAndAnswersData?.questions[currentQuestionNumber]?.options?.map((option: any) => {
                                     return (
-                                        <div key={option.optionValue}>
+                                        <button
+                                            onClick={() => {
+                                                setOptionChosen(option.option)
+                                            }}
+                                            type='button'
+                                            title='option'
+                                            key={option.optionValue}
+                                            className={`w-[90%] h-12 text-center bg-Mid  focus:border-2 focus:border-Brand`}>
                                             <p> {option.option} - {option.optionValue} </p>
-                                        </div>
+                                        </button>
                                     )
                                 })}
-                            </button>
+                            </div>
+
+
+                            {/* Buttons */}
+                            <div className='w-full flex items-center justify-center space-x-3'>
+
+
+                                <button
+                                    onClick={() => {
+                                        nextQuestion()
+                                    }}
+                                    type='button'
+                                    title='next'
+                                    className=' outline-none border-none w-28 h-10 bg-Brand text-white font-nunito font-semibold text-base rounded-md'>
+                                    Next
+                                </button>
+                                {/* {currentQuestionNumber == lessonFirstTestQuestionsAndAnswersData?.questions.length - 1 ? (
+                                    <button id="nextQuestion">
+                                        Finish Quiz
+                                    </button>
+                                ) : (
+                                    <button
+                                        onClick={() => {
+                                            nextQuestion()
+                                        }}
+                                        type='button'
+                                        title='next'
+                                        className=' outline-none border-none w-28 h-10 bg-Brand text-white font-nunito font-semibold text-base rounded-md'>
+                                        Next
+                                    </button>
+                                )} */}
+
+                            </div>
 
                         </div>
                     </div>
