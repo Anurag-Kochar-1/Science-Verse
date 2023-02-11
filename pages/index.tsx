@@ -58,7 +58,7 @@ export default function Home({ physicsData, chemistryData, biologyData }: any) {
 
           <h6 className='text-4xl text-Dark font-nunito font-bold'> Subjects</h6>
 
-          <div className='flex justify-start items-center my-5 space-x-5'>
+          <div className='w-full flex flex-wrap justify-start items-center my-5'>
             {subjectsArray?.map((subject) => {
               return (
                 <div
@@ -66,8 +66,8 @@ export default function Home({ physicsData, chemistryData, biologyData }: any) {
                     setSelectedSubject(subject.ref)
                   }}
                   key={subject.id}
-                  className='w-56 h-56 rounded-md bg-Light flex justify-end items-end p-5 hover:cursor-pointer'>
-                  <h5 className='text-3xl text-Brand font-nunito font-semibold'> {subject.subjectName} </h5>
+                  className='w-32 h-32 md:w-52 md:h-52 rounded-md bg-Light flex justify-end items-end p-5 hover:cursor-pointer m-2'>
+                  <h5 className='text-lg md:text-3xl text-Brand font-nunito font-semibold'> {subject.subjectName} </h5>
                 </div>
               )
             })}
