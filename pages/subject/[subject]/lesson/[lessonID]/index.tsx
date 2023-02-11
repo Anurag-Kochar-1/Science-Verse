@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { auth, db } from '@/firebaseConfig'
-import { collection, doc, getDoc, getDocs } from 'firebase/firestore'
+import { arrayUnion, collection, doc, getDoc, getDocs, increment, updateDoc } from 'firebase/firestore'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import logoOne from "../../../../../public/images/logos/logoOne.png"
@@ -28,15 +28,16 @@ const Index = ({ lessonData, lessonTestsData, lessonFirstTestQuestionsAndAnswers
             setScore(score + 1);
             setTimer(5)
             setCurrentQuestionNumber(currentQuestionNumber + 1);
+            setOptionChosen("")
         }
 
         setCurrentQuestionNumber(currentQuestionNumber + 1);
+        setOptionChosen("")
 
 
 
     }
-
-    const finishTest = () => {
+    const finishTest = async () => {
         if (lessonFirstTestQuestionsAndAnswersData?.questions[currentQuestionNumber].answer == optionChosen) {
             setScore(score + 1);
             setTimer(0)
@@ -46,6 +47,14 @@ const Index = ({ lessonData, lessonTestsData, lessonFirstTestQuestionsAndAnswers
         setTimer(0)
         setIsTestCompleted(true)
 
+
+
+        // updating user and Sending Coins to user
+        const userRef = doc(db, "users", auth?.currentUser?.uid as string)
+        await updateDoc(userRef, {
+            userCoins: increment(score * 50)
+        })
+
     }
 
 
@@ -53,8 +62,8 @@ const Index = ({ lessonData, lessonTestsData, lessonFirstTestQuestionsAndAnswers
     useEffect(() => {
 
         timerIntervalFunc = setInterval(() => {
-            if (timer != 0) setTimer(timer - 1)
-            if (timer == 0) {
+            if (isTestModalOpen && timer != 0) setTimer(timer - 1)
+            if (isTestModalOpen && timer == 0) {
                 if (currentQuestionNumber != lessonFirstTestQuestionsAndAnswersData?.questions.length - 1) {
                     setCurrentQuestionNumber(currentQuestionNumber + 1)
                     setTimer(5)
@@ -168,6 +177,8 @@ const Index = ({ lessonData, lessonTestsData, lessonFirstTestQuestionsAndAnswers
                     <div className='w-[95%] py-20 flex flex-col items-center justify-start p-3 space-y-2 my-5 border-2 border-Brand rounded-lg'>
                         <p className='font-nunito font-medium'> Results: </p>
                         <p className='text-3xl font-nunito text-Brand font-bold'> Marks : {score} </p>
+                        <p className='text-xl font-nunito text-Darkest font-bold'> {score * 50} Coins Earned !!!! </p>
+
                         <button
                             onClick={() => router.push(`/`)}
                             type='button'
