@@ -218,15 +218,15 @@ const Index = ({ lessonData, lessonTestsData, lessonFirstTestQuestionsAndAnswers
 
 
             <main className='col-span-full relative lg:col-start-3 lg:col-end-13 flex flex-col items-center justify-start bg-Brand'>
-                {lessonData.lessonType === "3dModel" && <div className='absolute w-full col-span-full lg:col-start-3 lg:col-end-13 h-14 bg-Brand top-0 flex justify-start items-center px-5'>    </div>}
+                {lessonData?.lessonType === "3dModel" && <div className='absolute w-full col-span-full lg:col-start-3 lg:col-end-13 h-14 bg-Brand top-0 flex justify-start items-center px-5'>    </div>}
 
 
 
-                {lessonData.lessonType === "metaverse" && (
+                {lessonData?.lessonType === "metaverse" && (
                     <iframe
                         width={"100%"}
                         className='w-full h-screen' id=""
-                        src={process.env.NEXT_PUBLIC_BIOLOGY_ORAGNS_METAVERSE_ID}
+                        src={lessonData.lessonMetaverseID}
                         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; microphone; camera; display-capture; xr-spatial-tracking; xr;"
                         allowFullScreen
                     ></iframe>
@@ -238,7 +238,7 @@ const Index = ({ lessonData, lessonTestsData, lessonFirstTestQuestionsAndAnswers
                     <iframe
                         width={"100%"}
                         className='w-full h-screen' id=""
-                        src={process.env.NEXT_PUBLIC_BIOLOGY_ORAGNS_METAVERSE_ID}
+                        src={lessonData.lessonMetaverseID}
                         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; microphone; camera; display-capture; xr-spatial-tracking; xr;"
                         allowFullScreen
                     ></iframe>
@@ -266,16 +266,16 @@ export default Index
 export async function getServerSideProps({ params }: any) {
     const { subject, lessonID } = params
 
-    const lessonRef = doc(db, "classes", "10", "subjects", `${subject}`, 'lessons', `${lessonID}`)
+    const lessonRef = doc(db, "classes", "10", "subjects_2", `${subject}`, 'lessons_2', `${lessonID}`)
     const lessonRes = await getDoc(lessonRef)
     const lessonData = lessonRes.data() || null
 
 
-    const lessonTestsCollectionRef = collection(db, "classes", "10", "subjects", `${subject}`, 'lessons', `${lessonID}`, "tests")
+    const lessonTestsCollectionRef = collection(db, "classes", "10", "subjects_2", `${subject}`, 'lessons_2', `${lessonID}`, "tests")
     const lessonTestsRes = await getDocs(lessonTestsCollectionRef)
     const lessonTestsData = lessonTestsRes?.docs?.map(doc => doc.data())
 
-    const lessonFirstTestQuestionsAndAnswersRef = doc(db, "classes", "10", "subjects", `${subject}`, 'lessons', `${lessonID}`, "tests", `${lessonTestsData[0]?.testID}`)
+    const lessonFirstTestQuestionsAndAnswersRef = doc(db, "classes", "10", "subjects_2", `${subject}`, 'lessons_2', `${lessonID}`, "tests", `${lessonTestsData[0]?.testID}`)
     const lessonFirstTestQuestionsAndAnswersRes = await getDoc(lessonFirstTestQuestionsAndAnswersRef)
     const lessonFirstTestQuestionsAndAnswersData = lessonFirstTestQuestionsAndAnswersRes?.data() || null
 

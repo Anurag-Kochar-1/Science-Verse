@@ -33,7 +33,7 @@ const subjectsArray = [
 ]
 
 
-export default function Home({ physicsData, chemistryData, biologyData }: any) {
+export default function Home({ biologyData }: any) {
 
   const [selectedSubject, setSelectedSubject] = useState<string>("biology")
   // const [selectedSubjectLessonsData, setSelectedSubjectLessonsData] = useState<any[]>(physicsData)
@@ -79,7 +79,9 @@ export default function Home({ physicsData, chemistryData, biologyData }: any) {
 
           <span className='w-full'>
             {selectedSubject === "biology" && (
-              <span className='text-4xl text-Dark font-nunito font-bold '> <span className='text-4xl text-Brand font-nunito font-bold'> MetaVerse </span> Classes - {selectedSubject} </span>
+              <span onClick={() => {
+                console.log(biologyData)
+              }} className='text-4xl text-Dark font-nunito font-bold '> <span className='text-4xl text-Brand font-nunito font-bold'> MetaVerse </span> Classes - {selectedSubject} </span>
             )}
 
             {selectedSubject === "physics" && (
@@ -95,7 +97,7 @@ export default function Home({ physicsData, chemistryData, biologyData }: any) {
 
             {selectedSubject === "physics" && (
               <div className='w-full flex flex-col items-center justify-start space-y-3'>
-                {physicsData?.map((lesson: any) => {
+                {biologyData?.map((lesson: any) => {
                   return <LessonCard key={lesson.lessonID} lesson={lesson} />
                 })}
               </div>
@@ -103,7 +105,7 @@ export default function Home({ physicsData, chemistryData, biologyData }: any) {
 
             {selectedSubject === "chemistry" && (
               <div className='w-full flex flex-col items-center justify-start space-y-3'>
-                {chemistryData?.map((lesson: any) => {
+                {biologyData?.map((lesson: any) => {
                   return <LessonCard key={lesson.lessonID} lesson={lesson} />
                 })}
               </div>
@@ -132,24 +134,24 @@ export default function Home({ physicsData, chemistryData, biologyData }: any) {
 export async function getServerSideProps() {
 
   // Getting Physics lessons -> class 10th
-  const physicsLessonsCollectionRef = collection(db, `classes/10/subjects/physics/lessons`)
-  const physicsRes = await getDocs(physicsLessonsCollectionRef)
-  const physicsData = physicsRes?.docs?.map(doc => doc.data())
+  // const physicsLessonsCollectionRef = collection(db, `classes/10/subjects/physics/lessons`)
+  // const physicsRes = await getDocs(physicsLessonsCollectionRef)
+  // const physicsData = physicsRes?.docs?.map(doc => doc.data())
 
   // Getting Chemistry lessons -> class 10th
-  const chemistryLessonsCollectionRef = collection(db, `classes/10/subjects/chemistry/lessons`)
-  const chemistryRes = await getDocs(chemistryLessonsCollectionRef)
-  const chemistryData = chemistryRes?.docs?.map(doc => doc.data())
+  // const chemistryLessonsCollectionRef = collection(db, `classes/10/subjects/chemistry/lessons`)
+  // const chemistryRes = await getDocs(chemistryLessonsCollectionRef)
+  // const chemistryData = chemistryRes?.docs?.map(doc => doc.data())
 
 
   // Getting Biology lessons -> class 10th
-  const biologyLessonsCollectionRef = collection(db, `classes/10/subjects/biology/lessons`)
+  const biologyLessonsCollectionRef = collection(db, `classes/10/subjects_2/biology_2/lessons_2`)
   const biologyRes = await getDocs(biologyLessonsCollectionRef)
   const biologyData = biologyRes?.docs?.map(doc => doc.data())
 
 
 
   return {
-    props: { physicsData, chemistryData, biologyData }
+    props: { biologyData }
   }
 }
