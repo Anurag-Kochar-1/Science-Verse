@@ -219,14 +219,14 @@ const Index = ({ lessonData, lessonTestsData, lessonFirstTestQuestionsAndAnswers
 
             <main className='col-span-full relative lg:col-start-3 lg:col-end-13 flex flex-col items-center justify-start bg-Brand'>
                 {lessonData.lessonType === "3dModel" && <div className='absolute w-full col-span-full lg:col-start-3 lg:col-end-13 h-14 bg-Brand top-0 flex justify-start items-center px-5'>    </div>}
-                
-           
+
+
 
                 {lessonData.lessonType === "metaverse" && (
                     <iframe
                         width={"100%"}
                         className='w-full h-screen' id=""
-                        src={lessonData.lessonMetaverseID}
+                        src={process.env.NEXT_PUBLIC_BIOLOGY_ORAGNS_METAVERSE_ID}
                         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; microphone; camera; display-capture; xr-spatial-tracking; xr;"
                         allowFullScreen
                     ></iframe>
@@ -237,8 +237,11 @@ const Index = ({ lessonData, lessonTestsData, lessonFirstTestQuestionsAndAnswers
                 {lessonData.lessonType === "3dModel" && (
                     <iframe
                         width={"100%"}
-                        className='w-full h-screen'
-                        id="iframe" src={lessonData?.lesson3dModelID} allow="autoplay; fullscreen"></iframe>
+                        className='w-full h-screen' id=""
+                        src={process.env.NEXT_PUBLIC_BIOLOGY_ORAGNS_METAVERSE_ID}
+                        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; microphone; camera; display-capture; xr-spatial-tracking; xr;"
+                        allowFullScreen
+                    ></iframe>
                 )}
 
 
