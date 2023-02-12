@@ -10,6 +10,7 @@ import { CgPerformance } from "react-icons/cg"
 import { IoSettingsOutline } from "react-icons/io5"
 import { IoMdNotificationsOutline } from "react-icons/io"
 import { useRouter } from 'next/router'
+import ProfileCard from '../RightSidebar/ProfileCard'
 
 const navLinks = [
     {
@@ -28,7 +29,7 @@ const navLinks = [
         id: 2,
         name: "Performance",
         icon: <CgPerformance size={"1.5rem"} className="text-gray-600" />,
-        link: "/performance"
+        link: "/"
     },
     {
         id: 3,
@@ -64,7 +65,7 @@ const LeftSidebar = () => {
                     ref={profileCardContainerRef}
                     className='fixed w-full h-full bg-black/[.80] flex justify-center items-center' onClick={(e) => {
                         // console.log(e.target)
-                        if(e.target !== profileCardRef.current) setIsProfileCardOpen(false)
+                        if (e.target !== profileCardRef.current) setIsProfileCardOpen(false)
                     }}>
                     <div ref={profileCardRef} className='z-50 w-[90%] h-[50vh] sm:w-[60%] md:w-[40%] lg:w-[30%] lg:h-[40vh] bg-Lightest rounded-md flex flex-col items-center justify-start'>
 
@@ -81,7 +82,7 @@ const LeftSidebar = () => {
                         alt="logo"
                         width={100}
                         height={100}
-                        className="w-20 h-20 rounded-full"
+                        className="w-20 h-20"
                     />
                 </Link>
 
@@ -92,7 +93,7 @@ const LeftSidebar = () => {
                                 return (
                                     <Link
                                         onClick={() => {
-                                            if (item.name = "Profile") setIsProfileCardOpen(true)
+                                            if (item.name === "Profile") setIsProfileCardOpen(true)
                                         }}
                                         key={item.id}
                                         href={item.link}
@@ -110,6 +111,7 @@ const LeftSidebar = () => {
                             <IoSettingsOutline size={"1.5rem"} className="text-gray-600" />
                             <h6 className='text-base text-gray-600 font-nunito font-medium'> Settings </h6>
                         </div>
+
                     </>
                 )}
 

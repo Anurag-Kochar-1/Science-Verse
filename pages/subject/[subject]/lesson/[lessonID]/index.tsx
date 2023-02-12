@@ -9,6 +9,7 @@ import Link from 'next/link'
 // icons
 import { IoCloseSharp } from "react-icons/io5"
 import { useAuthState } from 'react-firebase-hooks/auth'
+import { toast } from 'react-toastify'
 
 const Index = ({ lessonData, lessonTestsData, lessonFirstTestQuestionsAndAnswersData }: any) => {
     const [user, loading, error] = useAuthState(auth)
@@ -55,6 +56,19 @@ const Index = ({ lessonData, lessonTestsData, lessonFirstTestQuestionsAndAnswers
             userCoins: increment(score * 50)
         })
 
+        const notify = () => toast.success(`${score * 50} Coins Credited`, {
+            position: "bottom-center",
+            autoClose: 2500,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+        });
+
+        notify()
+
     }
 
 
@@ -83,6 +97,8 @@ const Index = ({ lessonData, lessonTestsData, lessonFirstTestQuestionsAndAnswers
 
     return (
         <>
+
+
             {isTestModalOpen && (
                 <div className='fixed w-full h-full bg-black/[.80] flex justify-center items-center'>
                     <div className='z-50 w-[90%] h-[90vh] lg:w-[80%] lg:h-[80vh] bg-Lightest rounded-md flex flex-col items-center justify-start'>
@@ -157,7 +173,7 @@ const Index = ({ lessonData, lessonTestsData, lessonFirstTestQuestionsAndAnswers
                         alt="logo"
                         width={100}
                         height={100}
-                        className="w-20 h-20 rounded-full"
+                        className="w-20 h-20"
                     />
                 </Link>
 
@@ -200,17 +216,37 @@ const Index = ({ lessonData, lessonTestsData, lessonFirstTestQuestionsAndAnswers
 
             </div>
 
-            <main className='col-span-full lg:col-start-3 lg:col-end-13 flex flex-col items-center justify-start bg-red-300'>
-                {/* <h1 onClick={() => {
-                console.log(lessonTestsData)
-                }}> LOG lessonTestsData </h1> */}
-                <iframe
-                    width={"100%"}
-                    className='w-full h-screen' id=""
-                    src={lessonData.lessonMetaverseID}
-                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; microphone; camera; display-capture; xr-spatial-tracking; xr;"
-                    allowFullScreen
-                ></iframe>
+
+            <main className='col-span-full relative lg:col-start-3 lg:col-end-13 flex flex-col items-center justify-start bg-Brand'>
+                {lessonData.lessonType === "3dModel" && <div className='absolute w-full col-span-full lg:col-start-3 lg:col-end-13 h-14 bg-Brand top-0 flex justify-start items-center px-5'>    </div>}
+                
+           
+
+                {lessonData.lessonType === "metaverse" && (
+                    <iframe
+                        width={"100%"}
+                        className='w-full h-screen' id=""
+                        src={lessonData.lessonMetaverseID}
+                        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; microphone; camera; display-capture; xr-spatial-tracking; xr;"
+                        allowFullScreen
+                    ></iframe>
+                )}
+
+
+
+                {lessonData.lessonType === "3dModel" && (
+                    <iframe
+                        width={"100%"}
+                        className='w-full h-screen'
+                        id="iframe" src={lessonData?.lesson3dModelID} allow="autoplay; fullscreen"></iframe>
+                )}
+
+
+                {/* <iframe width=820 height=460 id="iframe" src="" allow="autoplay; fullscreen"></iframe> */}
+
+
+
+
             </main>
         </>
 

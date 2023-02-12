@@ -19,7 +19,7 @@ const LessonCard = ({ lesson }: any) => {
                     alert("Sign in first")
                 }
             }}
-            className='w-full h-28 flex justify-start items-center rounded-md bg-Mid p-3 hover:cursor-pointer space-x-3'>
+            className='w-full h-28 flex justify-start items-center rounded-md bg-gray-200 p-3 hover:cursor-pointer space-x-3'>
 
             {lesson.lessonLogo && (
                 <Image
