@@ -66,8 +66,8 @@ export default function Home({ physicsData, chemistryData, biologyData }: any) {
                     setSelectedSubject(subject.ref)
                   }}
                   key={subject.id}
-                  className={`w-32 h-32 md:w-52 md:h-52 rounded-lg bg-Light flex justify-end items-end p-5 hover:cursor-pointer m-2 ${selectedSubject === subject.ref && "border-4 border-Brand"}`}>
-                  <h5 className='text-lg md:text-3xl text-Brand font-nunito font-semibold'> {subject.subjectName} </h5>
+                  className={`w-32 h-32 md:w-52 md:h-52 rounded-lg ${subject.subjectName === "Biology" && "bg-green-100"} ${subject.subjectName === "Chemistry" && "bg-blue-100"} ${subject.subjectName === "Physics" && "bg-red-100"} flex justify-end items-end p-5 hover:cursor-pointer m-2 ${selectedSubject === subject.ref && "border-4 border-Brand"}`}>
+                  <h5 className='text-lg md:text-3xl text-Dark font-nunito font-semibold'> {subject.subjectName} </h5>
                 </div>
               )
             })}
@@ -77,13 +77,19 @@ export default function Home({ physicsData, chemistryData, biologyData }: any) {
         {/* Lessons Container */}
         <div className='w-full flex flex-col justify-start items-start my-10'>
 
-          <h6 className='text-4xl text-Dark font-nunito font-bold' onClick={() => {
-            console.log(physicsData)
-            console.log(chemistryData)
-            console.log(biologyData)
-          }}> Lessons - {selectedSubject}
+          <span className='w-full'>
+            {selectedSubject === "biology" && (
+              <span className='text-4xl text-Dark font-nunito font-bold '> <span className='text-4xl text-Brand font-nunito font-bold'> MetaVerse </span> Classes - {selectedSubject} </span>
+            )}
 
-          </h6>
+            {selectedSubject === "physics" && (
+              <span className='text-4xl text-Dark font-nunito font-bold '> Model Classes - {selectedSubject} </span>
+            )}
+
+            {selectedSubject === "chemistry" && (
+              <span className='text-4xl text-Dark font-nunito font-bold '> Model Classes - {selectedSubject} </span>
+            )}
+          </span>
 
           <div className='w-full flex justify-start items-center my-5 space-x-5'>
 
