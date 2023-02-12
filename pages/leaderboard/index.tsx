@@ -12,7 +12,7 @@ const Index = ({ leaderboardData }: any) => {
                 <h2 className='text-4xl text-Dark font-nunito font-semibold'> Leaderboard </h2>
                 {leaderboardData[0] && leaderboardData?.map((userData: any) => {
                     return (
-                        <div className="flex justify-start items-center space-x-4 px-5 py-2 rounded-md bg-gray-100">
+                        <div key={userData?.userID} className="flex justify-start items-center space-x-4 px-5 py-2 rounded-md bg-gray-100">
                             <h4 className='text-lg text-Dark font-nunito font-medium'> {userData?.userName} </h4>
                             <span className='text-lg text-Brand font-nunito font-medium'> {userData?.userCoins} Coins </span>
                         </div>

@@ -100,7 +100,7 @@ const Index = ({ lessonData, lessonTestsData, lessonFirstTestQuestionsAndAnswers
 
 
             {isTestModalOpen && (
-                <div className='fixed w-full h-full bg-black/[.80] flex justify-center items-center'>
+                <div className='z-20 fixed w-full h-full bg-black/[.80] flex justify-center items-center'>
                     <div className='z-50 w-[90%] h-[90vh] lg:w-[80%] lg:h-[80vh] bg-Lightest rounded-md flex flex-col items-center justify-start'>
                         {/* --- Taskbar ---  */}
                         <div className='w-full h-16 flex justify-between items-center bg-Brand rounded-tr-md rounded-tl-md px-5'>
@@ -114,7 +114,7 @@ const Index = ({ lessonData, lessonTestsData, lessonFirstTestQuestionsAndAnswers
                         <div className='w-full h-full flex flex-col items-center justify-between py-10'>
                             {/* Question and Options container */}
                             <div className='w-full flex flex-col justify-between items-center'>
-                                <p className='text-Dark text-4xl font-nunito font-semibold text-center'>  Question {currentQuestionNumber + 1} : {lessonFirstTestQuestionsAndAnswersData?.questions[currentQuestionNumber]?.prompt} </p>
+                                <p className='text-Dark text-4xl font-nunito font-semibold text-center px-5'>  Question {currentQuestionNumber + 1} : {lessonFirstTestQuestionsAndAnswersData?.questions[currentQuestionNumber]?.prompt} </p>
                                 {/*- option - {optionChosen} Score - {score} */}
 
                                 {/* Options */}
