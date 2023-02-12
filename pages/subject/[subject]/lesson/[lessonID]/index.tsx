@@ -16,7 +16,7 @@ const Index = ({ lessonData, lessonTestsData, lessonFirstTestQuestionsAndAnswers
     const router = useRouter()
 
 
-    const [timer, setTimer] = useState<number>(5)
+    const [timer, setTimer] = useState<number>(100)
     const [isTestModalOpen, setIsTestModalOpen] = useState<boolean>(false)
     const [currentQuestionNumber, setCurrentQuestionNumber] = useState<number>(0);
     const [optionChosen, setOptionChosen] = useState<string>("");
