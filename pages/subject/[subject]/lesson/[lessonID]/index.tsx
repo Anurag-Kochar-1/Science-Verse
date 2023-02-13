@@ -14,6 +14,7 @@ import StartTestEmoji from "../../../../../public/images/LessonOnBoarding/StartT
 import { IoCloseSharp } from "react-icons/io5"
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { toast } from 'react-toastify'
+import { RxCross1, RxHamburgerMenu } from 'react-icons/rx'
 
 const Index = ({ lessonData, lessonTestsData, lessonFirstTestQuestionsAndAnswersData }: any) => {
     const [user, loading, error] = useAuthState(auth)
@@ -118,8 +119,70 @@ const Index = ({ lessonData, lessonTestsData, lessonFirstTestQuestionsAndAnswers
         }
     }, [loading])
 
+
+    const [isHamBurgerMenuVisible, setIsHamBurgerMenuVisible] = useState<boolean>(false)
+
     return (
         <>
+            {/* Header */}
+            <div className='z-30 bg-Brand fixed top-0 left-0 right-0 w-full h-12 lg:hidden flex justify-start items-center px-2'>
+                {/* Hamburger Icon */}
+                {!isHamBurgerMenuVisible ? (
+                    <RxHamburgerMenu className='lg:hidden w-6 h-6 text-white hover:cursor-pointer' onClick={() => setIsHamBurgerMenuVisible(!isHamBurgerMenuVisible)} />
+                ) : (
+                    <RxCross1 className='lg:hidden w-6 h-6 text-white hover:cursor-pointer' onClick={() => setIsHamBurgerMenuVisible(!isHamBurgerMenuVisible)} />
+                )}
+            </div>
+
+            {/* Sidebar */}
+            <div className={`z-40 fixed top-0 left-0 h-full w-[100%] bg-Brand flex flex-col items-start justify-between ${isHamBurgerMenuVisible ? "translate-x-0" : "translate-x-full"} ease-in-out duration-500`}>
+
+                <div className='w-full h-full flex flex-col justify-between items-center p-4 '>
+                    <div className='w-full flex justify-start items-center space-x-2'>
+                        {!isHamBurgerMenuVisible ? (
+                            <div className='flex justify-center items-center w-10 h-10 bg-Darkest rounded-full '>
+                                <RxHamburgerMenu className='w-6 h-6 text-white  hover:cursor-pointer' onClick={() => setIsHamBurgerMenuVisible(!isHamBurgerMenuVisible)} />
+                            </div>
+                        ) : (
+                            <div className='flex justify-center items-center w-10 h-10 rounded-full bg-Darkest'>
+                                <RxCross1 className='w-6 h-6 text-white  hover:cursor-pointer' onClick={() => setIsHamBurgerMenuVisible(!isHamBurgerMenuVisible)} />
+                            </div>
+                        )}
+                    </div>
+
+                    {!isTestCompleted && (
+                        <button
+                            onClick={() => {
+                                console.log(lessonFirstTestQuestionsAndAnswersData)
+                                setIsTestModalOpen(true)
+                                setIsHamBurgerMenuVisible(false)
+                            }}
+                            type='button'
+                            className='outline-none border-none w-28 h-10 bg-Dark text-white font-nunito font-medium text-base rounded-md'
+                        > Start Test </button>
+                    )}
+
+                    {/* Results */}
+                    {isTestCompleted && (
+                        <div className='w-[95%] py-20 flex flex-col items-center justify-start p-3 space-y-2 my-5 border-2 border-whtie rounded-lg'>
+                            <p className='font-nunito font-medium'> Results: </p>
+                            <p className='text-3xl font-nunito text-Brand font-bold'> Marks : {score} </p>
+                            <p className='text-xl font-nunito text-Darkest font-bold'> {score * 50} Coins Earned !!!! </p>
+
+                            <button
+                                onClick={() => router.push(`/`)}
+                                type='button'
+                                title='goToHome'
+                                className='outline-none border-none w-32 h-10 bg-Dark text-white font-nunito font-medium text-base rounded-md'
+                            > Go to Home </button>
+                        </div>
+                    )}
+
+
+                    <span className='text-Dark font-nunito font-extrabold'> Science Verse </span>
+                </div>
+
+            </div>
 
             {isOnboardingModalVisible && (
                 <div className='z-20 fixed w-full h-full bg-black/[.40] flex justify-center items-center'>
@@ -187,7 +250,7 @@ const Index = ({ lessonData, lessonTestsData, lessonFirstTestQuestionsAndAnswers
 
             {isTestModalOpen && (
                 <div className='z-20 fixed w-full h-full bg-black/[.80] flex justify-center items-center'>
-                    <div className='z-50 w-[90%] h-[90vh] lg:w-[80%] lg:h-[80vh] bg-Lightest rounded-md flex flex-col items-center justify-start'>
+                    <div className='z-30 w-[90%] h-[80vh] lg:w-[80%] lg:h-[80vh] bg-Lightest rounded-md flex flex-col items-center justify-start overflow-x-hidden overflow-y-scroll'>
                         {/* --- Taskbar ---  */}
                         <div className='w-full h-16 flex justify-between items-center bg-Brand rounded-tr-md rounded-tl-md px-5'>
                             <span> {null} </span>

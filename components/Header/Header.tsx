@@ -17,9 +17,9 @@ const Header = () => {
     <header className='w-full h-20 flex justify-between lg:justify-center items-center space-x-2 px-3'>
       {/* Hamburger Icon */}
       {!isHamBurgerMenuVisible ? (
-        <RxHamburgerMenu className='lg:hidden w-6 h-6 text-brandDarkColor hover:cursor-pointer' onClick={() => setIsHamBurgerMenuVisible(!isHamBurgerMenuVisible)} />
+        <RxHamburgerMenu className='lg:hidden w-6 h-6 text-Dark hover:cursor-pointer' onClick={() => setIsHamBurgerMenuVisible(!isHamBurgerMenuVisible)} />
       ) : (
-        <RxCross1 className='lg:hidden w-6 h-6 text-brandDarkColor hover:cursor-pointer' onClick={() => setIsHamBurgerMenuVisible(!isHamBurgerMenuVisible)} />
+        <RxCross1 className='lg:hidden w-6 h-6 text-Dark hover:cursor-pointer' onClick={() => setIsHamBurgerMenuVisible(!isHamBurgerMenuVisible)} />
       )}
 
 
