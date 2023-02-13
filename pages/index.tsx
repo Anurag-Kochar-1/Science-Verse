@@ -78,22 +78,35 @@ export default function Home({ biologyData }: any) {
         <div className='w-full flex flex-col justify-start items-start my-10'>
 
           <span className='w-full'>
-            {selectedSubject === "biology" && (
-              <span onClick={() => {
-                console.log(biologyData)
-              }} className='text-4xl text-Dark font-nunito font-bold '> <span className='text-4xl text-Brand font-nunito font-bold'> MetaVerse </span> Classes - {selectedSubject} </span>
-            )}
+            <span className='text-4xl text-Dark font-nunito font-bold '> <span className='text-4xl text-Brand font-nunito font-bold'> MetaVerse </span> Classes - {selectedSubject} </span>
+
+          </span>
+
+          <div className='w-full flex flex-col justify-start items-center my-5 space-y-5'>
 
             {selectedSubject === "physics" && (
-              <span className='text-4xl text-Dark font-nunito font-bold '> Model Classes - {selectedSubject} </span>
+              <div className='w-full flex flex-col items-center justify-start space-y-3'>
+                {biologyData?.map((lesson: any) => {
+                  return <LessonCard key={lesson.lessonID} lesson={lesson} />
+                })}
+              </div>
             )}
 
             {selectedSubject === "chemistry" && (
-              <span className='text-4xl text-Dark font-nunito font-bold '> Model Classes - {selectedSubject} </span>
+              <div className='w-full flex flex-col items-center justify-start space-y-3'>
+                {biologyData?.map((lesson: any) => {
+                  return <LessonCard key={lesson.lessonID} lesson={lesson} />
+                })}
+              </div>
             )}
-          </span>
 
-          <div className='w-full flex justify-start items-center my-5 space-x-5'>
+            {selectedSubject === "biology" && (
+              <div className='w-full flex flex-col items-center justify-start space-y-3'>
+                {biologyData?.map((lesson: any) => {
+                  return <LessonCard key={lesson.lessonID} lesson={lesson} />
+                })}
+              </div>
+            )}
 
             {selectedSubject === "physics" && (
               <div className='w-full flex flex-col items-center justify-start space-y-3'>
