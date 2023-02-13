@@ -6,6 +6,10 @@ import { useRouter } from 'next/router'
 import logoOne from "../../../../../public/images/logos/logoOne.png"
 import Link from 'next/link'
 
+import WaitEmoji from "../../../../../public/images/LessonOnBoarding/WaitEmoji.png"
+import ClickOn3dModelsEmoji from "../../../../../public/images/LessonOnBoarding/ClickOn3dModelsEmoji.png"
+import StartTestEmoji from "../../../../../public/images/LessonOnBoarding/StartTestEmoji.png"
+
 // icons
 import { IoCloseSharp } from "react-icons/io5"
 import { useAuthState } from 'react-firebase-hooks/auth'
@@ -23,6 +27,13 @@ const Index = ({ lessonData, lessonTestsData, lessonFirstTestQuestionsAndAnswers
     const [score, setScore] = useState<number>(0)
     const [isTestCompleted, setIsTestCompleted] = useState<boolean>(false)
 
+
+
+    // Onboarding Screens
+    const [isOnboardingModalVisible, setIsOnboardingModalVisible] = useState<boolean>(true)
+    const [isOnboardingScreenOneVisible, setIsOnboardingScreenOneVisible] = useState<boolean>(true)
+    const [isOnboardingScreenTwoVisible, setIsOnboardingScreenTwoVisible] = useState<boolean>(false)
+    const [isOnboardingScreenThirdVisible, setIsOnboardingScreenThirdVisible] = useState<boolean>(false)
 
     const nextQuestion = () => {
         if (lessonFirstTestQuestionsAndAnswersData?.questions[currentQuestionNumber].answer == optionChosen) {
@@ -97,6 +108,69 @@ const Index = ({ lessonData, lessonTestsData, lessonFirstTestQuestionsAndAnswers
 
     return (
         <>
+
+            {isOnboardingModalVisible && (
+                <div className='z-20 fixed w-full h-full bg-black/[.40] flex justify-center items-center'>
+                    <div className='z-50 w-[70%] h-[70vh] lg:w-[80%] lg:h-[80vh] bg-Lightest rounded-md flex flex-col items-center justify-between text-center p-3'>
+
+                        {isOnboardingScreenOneVisible && (
+                            <>
+                                <Image src={WaitEmoji} alt="wait-for-1-min-pls" width={100} height={100} className="w-32 h-32 rounded-full" />
+                                <div className='w-full  flex flex-col items-center justify-center space-y-3'>
+                                    <p className='text-2xl font-nunito font-semibold text-Brand'> Loading Metaverse can take 30-50 seconds, please wait </p>
+                                    <p className='text-lg font-nunito font-semibold text-red-500'> Don't Close Tab or minimize {"<3"} </p>
+                                </div>
+                                <button
+                                    onClick={() => {
+                                        setIsOnboardingScreenOneVisible(false)
+                                        setIsOnboardingScreenTwoVisible(true)
+                                    }}
+                                    type='button'
+                                    title='next'
+                                    className='lg:hidden outline-none border-none w-28 h-10 bg-Brand text-white font-nunito font-semibold text-base rounded-md'
+                                > Next </button>
+                            </>
+                        )}
+
+                        {isOnboardingScreenTwoVisible && (
+                            <>
+                                <Image src={ClickOn3dModelsEmoji} alt="wait-for-1-min-pls" width={100} height={100} className="w-32 h-32 rounded-full" />
+                                <div className='w-full  flex flex-col items-center justify-center space-y-3'>
+                                    <p className='text-2xl font-nunito font-semibold text-Darkest'> Click on 3D Models to interact with them </p>
+                                </div>
+                                <button
+                                    onClick={() => {
+                                        setIsOnboardingScreenTwoVisible(false)
+                                        setIsOnboardingScreenThirdVisible(true)
+                                    }}
+                                    type='button'
+                                    title='next'
+                                    className='lg:hidden outline-none border-none w-28 h-10 bg-Brand text-white font-nunito font-semibold text-base rounded-md'
+                                > Next </button>
+                            </>
+                        )}
+
+                        {isOnboardingScreenThirdVisible && (
+                            <>
+                                <Image src={StartTestEmoji} alt="wait-for-1-min-pls" width={100} height={100} className="w-32 h-32 rounded-full" />
+                                <div className='w-full  flex flex-col items-center justify-center space-y-3'>
+                                    <p className='text-2xl font-nunito font-semibold text-Darkest'> Start Test / Quiz after exploring the metaverse </p>
+                                </div>
+                                <button
+                                    onClick={() => {
+                                        setIsOnboardingScreenThirdVisible(false)
+                                        setIsOnboardingModalVisible(false)
+                                    }}
+                                    type='button'
+                                    title='next'
+                                    className='lg:hidden outline-none border-none w-28 h-10 bg-Brand text-white font-nunito font-semibold text-base rounded-md'
+                                > Start it </button>
+                            </>
+                        )}
+
+                    </div>
+                </div>
+            )}
 
 
             {isTestModalOpen && (
