@@ -27,7 +27,7 @@ const Index = ({ lessonData, lessonTestsData, lessonFirstTestQuestionsAndAnswers
     const nextQuestion = () => {
         if (lessonFirstTestQuestionsAndAnswersData?.questions[currentQuestionNumber].answer == optionChosen) {
             setScore(score + 1);
-            setTimer(5)
+            setTimer(100)
             setCurrentQuestionNumber(currentQuestionNumber + 1);
             setOptionChosen("")
         }
@@ -80,7 +80,7 @@ const Index = ({ lessonData, lessonTestsData, lessonFirstTestQuestionsAndAnswers
             if (isTestModalOpen && timer == 0) {
                 if (currentQuestionNumber != lessonFirstTestQuestionsAndAnswersData?.questions.length - 1) {
                     setCurrentQuestionNumber(currentQuestionNumber + 1)
-                    setTimer(5)
+                    setTimer(100)
                 }
             }
         }, 1000)
@@ -271,11 +271,11 @@ export async function getServerSideProps({ params }: any) {
     const lessonData = lessonRes.data() || null
 
 
-    const lessonTestsCollectionRef = collection(db, "classes", "10", "subjects_2", `${subject}`, 'lessons_2', `${lessonID}`, "tests")
+    const lessonTestsCollectionRef = collection(db, "classes", "10", "subjects_2", `${subject}`, 'lessons_2', `${lessonID}`, "tests_2")
     const lessonTestsRes = await getDocs(lessonTestsCollectionRef)
     const lessonTestsData = lessonTestsRes?.docs?.map(doc => doc.data())
 
-    const lessonFirstTestQuestionsAndAnswersRef = doc(db, "classes", "10", "subjects_2", `${subject}`, 'lessons_2', `${lessonID}`, "tests", `${lessonTestsData[0]?.testID}`)
+    const lessonFirstTestQuestionsAndAnswersRef = doc(db, "classes", "10", "subjects_2", `${subject}`, 'lessons_2', `${lessonID}`, "tests_2", `${lessonTestsData[0]?.testID}`)
     const lessonFirstTestQuestionsAndAnswersRes = await getDoc(lessonFirstTestQuestionsAndAnswersRef)
     const lessonFirstTestQuestionsAndAnswersData = lessonFirstTestQuestionsAndAnswersRes?.data() || null
 
