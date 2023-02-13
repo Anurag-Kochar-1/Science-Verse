@@ -111,7 +111,7 @@ const Index = ({ lessonData, lessonTestsData, lessonFirstTestQuestionsAndAnswers
 
             {isOnboardingModalVisible && (
                 <div className='z-20 fixed w-full h-full bg-black/[.40] flex justify-center items-center'>
-                    <div className='z-50 w-[70%] h-[70vh] lg:w-[80%] lg:h-[80vh] bg-Lightest rounded-md flex flex-col items-center justify-between text-center p-3'>
+                    <div className='z-50 w-[70%] sm:w-[60%] md:w-[50%] lg:w-[50%] xl:w-[40%] 2xl:w-[35%]  bg-Lightest rounded-md flex flex-col items-center justify-between text-center p-4 space-y-6'>
 
                         {isOnboardingScreenOneVisible && (
                             <>
@@ -127,7 +127,7 @@ const Index = ({ lessonData, lessonTestsData, lessonFirstTestQuestionsAndAnswers
                                     }}
                                     type='button'
                                     title='next'
-                                    className='lg:hidden outline-none border-none w-28 h-10 bg-Brand text-white font-nunito font-semibold text-base rounded-md'
+                                    className='outline-none border-none w-28 h-10 bg-Brand text-white font-nunito font-semibold text-base rounded-md'
                                 > Next </button>
                             </>
                         )}
@@ -145,7 +145,7 @@ const Index = ({ lessonData, lessonTestsData, lessonFirstTestQuestionsAndAnswers
                                     }}
                                     type='button'
                                     title='next'
-                                    className='lg:hidden outline-none border-none w-28 h-10 bg-Brand text-white font-nunito font-semibold text-base rounded-md'
+                                    className='outline-none border-none w-28 h-10 bg-Brand text-white font-nunito font-semibold text-base rounded-md'
                                 > Next </button>
                             </>
                         )}
@@ -163,7 +163,7 @@ const Index = ({ lessonData, lessonTestsData, lessonFirstTestQuestionsAndAnswers
                                     }}
                                     type='button'
                                     title='next'
-                                    className='lg:hidden outline-none border-none w-28 h-10 bg-Brand text-white font-nunito font-semibold text-base rounded-md'
+                                    className='outline-none border-none w-28 h-10 bg-Brand text-white font-nunito font-semibold text-base rounded-md'
                                 > Start it </button>
                             </>
                         )}
