@@ -46,13 +46,13 @@ const SignInWithGoogleFunction = async () => {
                 })
 
             } catch (error) {
-                console.error(error);
+                console.log(error);
             }
         }
 
 
     } catch (error) {
-        alert(error)
+        console.log(error);
     }
 }
 
