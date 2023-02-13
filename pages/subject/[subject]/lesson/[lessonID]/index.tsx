@@ -83,8 +83,8 @@ const Index = ({ lessonData, lessonTestsData, lessonFirstTestQuestionsAndAnswers
     }
 
 
-    let timerIntervalFunc: any;
     useEffect(() => {
+        let timerIntervalFunc: any;
 
         timerIntervalFunc = setInterval(() => {
             if (isTestModalOpen && timer != 0) setTimer(timer - 1)
