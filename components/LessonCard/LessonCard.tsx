@@ -21,9 +21,9 @@ const LessonCard = ({ lesson }: any) => {
             }}
             className='w-full h-28 flex justify-start items-center rounded-md bg-gray-200 p-3 hover:cursor-pointer space-x-3'>
 
-            {lesson.lessonLogo && (
+            {lesson?.lessonLogos[0] && (
                 <Image
-                    src={lesson.lessonLogo}
+                    src={lesson.lessonLogos[Math.floor(Math.random() * 2)] || "https://firebasestorage.googleapis.com/v0/b/metaverse-for-learners.appspot.com/o/lessonLogos%2FBrain%20logo.png?alt=media&token=a269412e-0ea7-41e4-ac10-934fe072947e"}
                     alt="lessonLogo"
                     width={100}
                     height={100}
