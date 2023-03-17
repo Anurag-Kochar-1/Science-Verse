@@ -17,6 +17,7 @@ module.exports = {
         Mid: "#b8bfc6",
         Light: "#d6dee7",
         Lightest: "#ffffff",
+        Brand_2: "#7148fc",
       },
       fontFamily: {
         nunito: ['var(--font-nunito)', ...fontFamily.sans],
